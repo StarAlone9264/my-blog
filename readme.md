@@ -25,11 +25,12 @@
 开发工具：``idea + MySql WorkBench``
 
 本项目参考：
-    特别鸣谢: 	[ZHENFENG13](https://github.com/ZHENFENG13)
+    特别鸣谢: 	
+        [ZHENFENG13](https://github.com/ZHENFENG13)
 
-​			[光年后台模板](https://gitee.com/yinqi/Light-Year-Admin-Using-Iframe)
+​		[光年后台模板](https://gitee.com/yinqi/Light-Year-Admin-Using-Iframe)
 
-> 注：本项目基本参考``ZHENFENG13`` 大佬的项目，由于是学习，本项目已经上传服务器，为个人使用。
+> 注：本项目基本参考``ZHENFENG13`` 大佬的博客项目，由于是学习，本项目已经上传服务器，为个人使用。
 
 联系QQ  : 253446368
 
