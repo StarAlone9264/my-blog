@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
+<head>
+    <title th:text="${configurations.get('websiteName')}+' | '+${pageName}">详情页</title>
+    <meta name="description" th:content="${configurations.get('websiteDescription')}">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" th:href="@{${configurations.get('websiteIconUrl')}}"/>
+    <link rel="stylesheet" th:href="@{/blog/amaze/css/base.css}">
+    <!-- highlight -->
+    <link rel="stylesheet" th:href="@{/blog/plugins/highlight/styles/paraiso-light.css}">
+    <style>
+        .hljs {
+            background: none;
+        }
+        pre code {
+            white-space: pre;
+        }
+
+        blockquote {
+            border-left: 4px solid #42b983;
+            padding: 10px 0px 10px 15px;
+            color: #777;
+            background-color: rgba(66, 185, 131, .1);
+            max-width: 890px;
+        }
+    </style>
+
+</head>
+<body>
+<div th:replace="blog/amaze/header::nav-fragment"></div>
+<header th:fragment="header-fragment" class="intro-header"
+        th:style="'background-image:url(' + @{${configurations.get('websiteCoverUrl')}} + ');'">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1 th:text="${blogDetailVo.blogTitle}"></h1>
+                    <span class="meta">
+                        <th:block th:text="${#dates.format(blogDetailVo.createTime, 'yyyy-MM-dd')}"></th:block> &nbsp;
+                            <div class="comments-view" style="display: inline-block">
+                                <th:block th:text="${blogDetailVo.blogViews}"></th:block>浏览
+                            </div>
+                            </span>
+                    <div class="tags post-tags">
+                        <th:block th:each="tag : ${blogDetailVo.blogTags}">
+                            <a class="tag" rel="tag" th:href="@{'/tag/' + ${tag}}">
+                                <th:block th:text="${tag}"></th:block>
+                            </a>&nbsp;
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+</header>
+<div class="container">
+    <div class="am-g am-g-fixed blog-fixed">
+        <div class="am-u-lg-12 am-u-sm-12">
+            <article class="am-article blog-article-p article-trigger">
+                <div id="post-content" class="am-article-bd article-body">
+                    <th:block th:utext="${blogDetailVo.blogContent}"/>
+                    <aside class="blog-rights clearfix">
+                        <p>本站文章除注明转载/出处外，皆为作者原创，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文链接，否则保留追究法律责任的权利。</p>
+                    </aside>
+                </div>
+            </article>
+            <hr>
+        </div>
+    </div>
+    <p class="back-top" id="back-top" style="display:none"><a href="#top"><span></span></a></p>
+</div>
+<footer th:replace="blog/amaze/footer::footer-fragment"></footer>
+</body>
+<script th:src="@{/blog/default/js/jquery.min.js}"></script>
+<script th:src="@{/blog/plugins/highlight/highlight.pack.js}"></script>
+<script th:src="@{/blog/plugins/comment/valid.js}"></script>
+<script th:src="@{/blog/plugins/comment/comment.js}"></script>
+<!-- sweetalert -->
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script>
+    $(function () {
+        $("#back-top").hide();
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 300) {
+                $('#back-top').fadeIn();
+            } else {
+                $('#back-top').fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-top a').click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 800);
+            return false;
+        });
+
+        $('pre code').each(function (i, block) {
+            hljs.highlightBlock(block);
+        });
+
+        $('article h1, article h2, article h3, article h4, article h5').find('a').removeAttr('target')
+    })
+</script>
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysite.blog.mapper.CategoryMapper">
+    <resultMap id="categoryResultMap" type="com.mysite.blog.pojo.Category">
+        <id column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="hot_rank" jdbcType="INTEGER" property="hotRank" />
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    </resultMap>
+    <sql id="public_column">
+        category_id, category_name, create_time, hot_rank, is_delete
+    </sql>
+
+    <select id="getCategoryTotal" resultType="int">
+        select count(*) from `tb_category` where is_delete = 0;
+    </select>
+
+    <select id="selectPage" resultMap="categoryResultMap">
+        select
+        <include refid="public_column" />
+        from tb_category
+        where is_delete = 0
+    </select>
+
+    <insert id="insertCategory" parameterType="com.mysite.blog.pojo.Category">
+        insert into `tb_category`(`category_name`,`hot_rank`) values (#{categoryName},1);
+    </insert>
+
+    <select id="queryByName" resultMap="categoryResultMap">
+        select
+        <include refid="public_column" />
+        from tb_category
+        where category_name = #{categoryName}
+    </select>
+    <select id="queryById" resultMap="categoryResultMap">
+        select
+        <include refid="public_column" />
+        from tb_category
+        where category_id = #{categoryId}
+    </select>
+    <!--  ——————————————————————————————————————————————————————————————————————————————————————————————————  -->
+    <update id="updateIsDelete" parameterType="com.mysite.blog.pojo.Category">
+        update tb_category
+        set is_delete = 0,create_time = #{createTime}
+        where category_id = #{categoryId}
+    </update>
+    <update id="updateIsDeleteTime" parameterType="com.mysite.blog.pojo.Category">
+        update tb_category
+        set is_delete = 0 , create_time = CURRENT_TIMESTAMP
+        where category_id = #{categoryId}
+    </update>
+    <!--  ———————————————————————————————————————————————————————————————————————————————————————————————————  -->
+    <update id="deleteById" parameterType="com.mysite.blog.pojo.Category">
+        update tb_category
+            set is_delete = 1
+        where category_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateDynamicById" parameterType="com.mysite.blog.pojo.Category">
+        update tb_category
+        <set>
+            <if test="categoryName != null">
+                category_name = #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="hotRank != null">
+                hot_rank = #{hotRank,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=TINYINT},
+            </if>
+        </set>
+        where category_id = #{categoryId,jdbcType=INTEGER}
+    </update>
+
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysite.blog.mapper.UserInfoMapper">
+    <resultMap id="userResultMap" type="com.mysite.blog.pojo.UserInfo">
+        <id column="index_id" jdbcType="INTEGER" property="indexId" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="login_user_name" jdbcType="VARCHAR" property="loginUserName"/>
+        <result column="login_user_password" jdbcType="VARCHAR" property="loginUserPassword"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail"/>
+        <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+        <result column="profile_picture_url" jdbcType="VARCHAR" property="profilePictureUrl"/>
+        <result column="is_lock" jdbcType="INTEGER" property="isLock"/>
+    </resultMap>
+    <!--  公用  -->
+    <sql id="public_column">
+        index_id, user_id, login_user_name, login_user_password, nick_name, sex, user_phone, user_email, user_address, profile_picture_url, is_lock
+    </sql>
+    <!--  登陆  -->
+    <select id="login" resultMap="userResultMap">
+        select 
+        <include refid="public_column" />
+        from tb_user
+        where login_user_name=#{loginUserName} and login_user_password=#{loginUserPassword};
+    </select>
+    <!--  查询全部  -->
+    <select id="queryAll" resultMap="userResultMap">
+        select
+            <include refid="public_column" />
+        from tb_user;
+    </select>
+    <!--  修改用户信息  -->
+    <update id="modifyInformationByUserId" parameterType="com.mysite.blog.pojo.UserInfo">
+        update tb_user
+            set
+                login_user_name = #{loginUserName},nick_name = #{nickName},user_phone = #{userPhone},
+                user_email = #{userEmail},user_address = #{userAddress}
+                <if test="profilePictureUrl != null">
+                    ,profile_picture_url = #{profilePictureUrl}
+                </if>
+            where user_id = #{userId};
+    </update>
+    <update id="changePassword" parameterType="com.mysite.blog.pojo.UserInfo">
+        update tb_user
+            set
+                login_user_password = #{loginUserPassword}
+            where user_id = #{userId}
+    </update>
+    <!--  根据id查询  -->
+    <select id="selectByUserId" resultMap="userResultMap">
+        select
+            <include refid="public_column" />
+        from tb_user
+        where user_id = #{userId};
+    </select>
+</mapper>

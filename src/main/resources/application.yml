@@ -1,0 +1,57 @@
+server:
+  # 指定端口号
+  port: 2333
+  tomcat:
+    uri-encoding: UTF-8
+    accept-count: 1000
+    max-connections: 2000
+    max-threads: 300
+    min-spare-threads: 50
+    max-http-post-size: 100MB
+    accesslog:
+      enabled: true
+  servlet:
+    session:
+      timeout: 7200
+  connection-timeout: 60000
+spring:
+  # 连接数据库配置
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/my_blog?useUnicode=true&characterEncoding=utf-8&&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    # 关闭thymeleaf缓存
+    cache: false
+  servlet:
+    multipart:
+      # 解决spring boot文件上传限制
+      max-request-size: 1000MB
+      max-file-size: 100MB
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  # 服务器需要指定位置，本地使用请注释
+  resources:
+    static-locations: classpath:static/,file:static/
+mybatis:
+  type-aliases-package: com.mysite.blog.pojo
+  mapper-locations: classpath:mappers/*Mapper.xml
+
+##配置日志
+#logging:
+#  file:
+#    path: classpath:config/logback-spring.xml
+#  level:
+#    root: debug
+#pagehelper 分页
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<footer class="footer blog-footer" th:fragment="footer-fragment">
+    <div class="blog-text-center">
+        <a th:text="${configurations.get('footerAbout')}">My blog.</a> &copy; <a th:text="${configurations.get('footerCopyRight')}">CopyRight</a>  &nbsp;   • &nbsp;
+        Powered by <a th:href="${configurations.get('footerPoweredByUrl')}" target="_blank" th:text="${configurations.get('footerPoweredBy')}">2020 alone丶star</a><br/>
+        ICP <a href="http://www.beian.miit.gov.cn" th:text="${configurations.get('footerCaseNumber')}">陕ICP备 xxxxxx-x号</a>
+        <span class="ft-warn">&heartsuit;</span>
+        Theme <a rel="friend" href="https://github.com/spiritree/typecho-theme-amaze" target="_blank"> Amaze</a> by <a href="https://github.com/spiritree" target="_blank">spiritree</a>
+    </div>
+</footer>
+</html>
