@@ -1,6 +1,6 @@
 server:
   # 指定端口号
-  port: 2333
+  port: 8080
   tomcat:
     uri-encoding: UTF-8
     accept-count: 1000
