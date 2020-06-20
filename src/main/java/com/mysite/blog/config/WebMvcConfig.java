@@ -1,12 +1,7 @@
 package com.mysite.blog.config;
 
-import com.mysite.blog.interceptor.AdminLoginInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.ResourceUtils;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
@@ -21,8 +16,6 @@ import java.io.FileNotFoundException;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private AdminLoginInterceptor adminLoginInterceptor;
 
     /**
      * 上传服务器需要删除以下代码
