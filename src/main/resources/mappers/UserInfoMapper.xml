@@ -21,14 +21,6 @@
     <sql id="public_column_no_pwd">
         index_id, user_id, login_user_name, nick_name, sex, user_phone, user_email, user_address, profile_picture_url, is_lock
     </sql>
-    <!--  登陆  -->
-<!--    <select id="login" resultMap="userResultMap">-->
-<!--        select -->
-<!--        <include refid="public_column" />-->
-<!--        from tb_user-->
-<!--        where login_user_name=#{loginUserName} and login_user_password=#{loginUserPassword};-->
-<!--    </select>-->
-
     <select id="login" resultMap="userResultMap">
         select
         <include refid="public_column" />
