@@ -20,7 +20,7 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
         if (uri.startsWith("/admin") && null == request.getSession().getAttribute("loginUser")) {
             request.getSession().setAttribute("errorMsg", "请先登录");
-            response.sendRedirect(request.getContextPath() + "/admin/login");
+            response.sendRedirect(request.getContextPath() + "/admin/toLogin");
             return false;
         } else {
             request.getSession().removeAttribute("errorMsg");

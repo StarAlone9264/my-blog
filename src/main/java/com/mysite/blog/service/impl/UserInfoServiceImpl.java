@@ -21,9 +21,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserInfoMapper userInfoMapper;
 
     @Override
-    public UserInfo login(String loginUserName, String loginUserPassword) {
-        loginUserPassword = Md5Util.Md5Encode(loginUserPassword, "UTF-8");
-        return userInfoMapper.login(loginUserName, loginUserPassword);
+    public UserInfo login(String loginUserName) {
+        return userInfoMapper.login(loginUserName);
     }
 
     @Override
@@ -48,6 +47,10 @@ public class UserInfoServiceImpl implements UserInfoService {
             }
         }
         return false;
+    }
+
+    public UserInfo queryById(String userId){
+        return userInfoMapper.queryById(userId);
     }
 
     @Override

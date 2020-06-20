@@ -18,13 +18,24 @@
     <sql id="public_column">
         index_id, user_id, login_user_name, login_user_password, nick_name, sex, user_phone, user_email, user_address, profile_picture_url, is_lock
     </sql>
+    <sql id="public_column_no_pwd">
+        index_id, user_id, login_user_name, nick_name, sex, user_phone, user_email, user_address, profile_picture_url, is_lock
+    </sql>
     <!--  登陆  -->
+<!--    <select id="login" resultMap="userResultMap">-->
+<!--        select -->
+<!--        <include refid="public_column" />-->
+<!--        from tb_user-->
+<!--        where login_user_name=#{loginUserName} and login_user_password=#{loginUserPassword};-->
+<!--    </select>-->
+
     <select id="login" resultMap="userResultMap">
-        select 
+        select
         <include refid="public_column" />
         from tb_user
-        where login_user_name=#{loginUserName} and login_user_password=#{loginUserPassword};
+        where login_user_name=#{loginUserName};
     </select>
+
     <!--  查询全部  -->
     <select id="queryAll" resultMap="userResultMap">
         select
@@ -52,6 +63,12 @@
     <select id="selectByUserId" resultMap="userResultMap">
         select
             <include refid="public_column" />
+        from tb_user
+        where user_id = #{userId};
+    </select>
+    <select id="queryById" resultMap="userResultMap">
+        select
+        <include refid="public_column_no_pwd" />
         from tb_user
         where user_id = #{userId};
     </select>

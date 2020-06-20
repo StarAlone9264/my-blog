@@ -1,6 +1,6 @@
 server:
   # 指定端口号
-  port: 8080
+  port: 2333
   tomcat:
     uri-encoding: UTF-8
     accept-count: 1000
@@ -44,11 +44,11 @@ mybatis:
   mapper-locations: classpath:mappers/*Mapper.xml
 
 ##配置日志
-#logging:
-#  file:
-#    path: classpath:config/logback-spring.xml
-#  level:
-#    root: debug
+logging:
+  file:
+    path: classpath:config/logback-spring.xml
+  level:
+    root: debug
 #pagehelper 分页
 pagehelper:
   helperDialect: mysql

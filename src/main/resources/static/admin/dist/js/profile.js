@@ -17,11 +17,17 @@ $(function () {
                 data: params,
                 success: function (r) {
                     if (r == 'success') {
-                        alert('修改成功');
-                        window.location.href = '/admin/login';
+                        swal("保存成功", {
+                            icon: "success",
+                        }).then(function () {
+                            window.location.href = '/admin/login';
+                        });
                     } else {
-                        alert('修改失败');
-                        $("#updateUserNameButton").prop("disabled",false);
+                        swal("修改失败", {
+                            icon: "error",
+                        }).then(function () {
+                            $("#updateUserNameButton").prop("disabled",false);
+                        });
                     }
                 }
             });

@@ -16,14 +16,15 @@ import java.util.List;
 @Repository
 public interface UserInfoMapper {
 
-    /**
-     * 用户登陆
-     * @param loginUserName
-     * @param loginUserPassword
-     * @return
-     */
-    UserInfo login(@Param("loginUserName")String loginUserName, @Param("loginUserPassword")String loginUserPassword);
+//    /**
+//     * 用户登陆
+//     * @param loginUserName
+//     * @param loginUserPassword
+//     * @return
+//     */
+//    UserInfo login(@Param("loginUserName")String loginUserName, @Param("loginUserPassword")String loginUserPassword);
 
+    UserInfo login(@Param("loginUserName")String loginUserName);
     /**
      * 修改用户信息
      * @param userInfo
@@ -51,5 +52,12 @@ public interface UserInfoMapper {
      * @return
      */
     List<UserInfo> queryAll();
+
+    /**
+     * 根据id查询
+     * @param userId
+     * @return
+     */
+    UserInfo queryById(@Param("userId")String userId);
 
 }

@@ -7,6 +7,15 @@ import com.mysite.blog.service.impl.BlogServiceImpl;
 import com.mysite.blog.service.impl.CategoryServiceImpl;
 import com.mysite.blog.service.impl.TagServiceImpl;
 import com.mysite.blog.service.impl.UserInfoServiceImpl;
+import com.mysite.blog.uitl.Md5Util;
+import org.apache.catalina.security.SecurityUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
@@ -25,9 +34,6 @@ import java.io.File;
 @Controller
 @RequestMapping("/admin")
 public class UserInfoController {
-    private final String RANDOM_CODE_KEY = "RANDOM_CODE_KEY";
-    private final String SESSION_USER_NAME = "loginUser";
-
     @Resource
     private UserInfoServiceImpl userInfoService;
 
@@ -55,12 +61,19 @@ public class UserInfoController {
         request.setAttribute("blogTotal",blogService.getBlogTotal());
         request.setAttribute("categoryTotal",categoryService.getCategoryTotal());
         request.setAttribute("tagCount", tagService.getTagTotal());
+        Subject subject = SecurityUtils.getSubject();
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         return "admin/index";
     }
 
     @GetMapping("/profile")
     public String profile(HttpServletRequest request){
         request.setAttribute("path","profile");
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         return "admin/profile";
     }
     /**
@@ -71,10 +84,11 @@ public class UserInfoController {
      * @return 返回页
      */
     @PostMapping({"/login"})
-    public String login(HttpSession session, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("verifyCode") String verifyCode) {
+    public String login(HttpSession session, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("verifyCode") String verifyCode, Boolean rememberMe) {
         // 判断用户名密码是否为空
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             session.setAttribute("errorMsg", "用户名或密码不能为空！");
+//            return "admin/login";
             return "admin/login";
         }
         // 判断验证码是否为空
@@ -83,29 +97,40 @@ public class UserInfoController {
             return "admin/login";
         }
         // 获取session中的验证码
-        String sessionVerifyCode = (String) session.getAttribute(RANDOM_CODE_KEY);
+        String sessionVerifyCode = (String) session.getAttribute("RANDOM_CODE_KEY");
         // 判断用户填写的验证码是否与session中的一致
         if (!verifyCode.equalsIgnoreCase(sessionVerifyCode)) {
             session.setAttribute("errorMsg", "验证码不正确！");
             return "admin/login";
         }
-        // 登陆
-        UserInfo login = userInfoService.login(username, password);
-        if (login == null) {
-            session.setAttribute("errorMsg", "用户名或密码不正确！");
+        password = Md5Util.Md5Encode(password,"UTF-8");
+        Subject subject = SecurityUtils.getSubject();
+        // 如果存在用户 则 踢出
+        if (subject.isAuthenticated()) {
+            subject.logout();
+        }
+        UsernamePasswordToken token = null;
+        if (rememberMe != null && rememberMe){
+            token = new UsernamePasswordToken(username,password);
+            token.setRememberMe(true);
+        }else {
+            token = new UsernamePasswordToken(username,password);
+        }
+        try {
+            subject.login(token);
+        } catch (UnknownAccountException e) {
+            session.setAttribute("errorMsg","用户名不存在！");
+            return "admin/login";
+        } catch (IncorrectCredentialsException e){
+            session.setAttribute("errorMsg","密码错误");
             return "admin/login";
         }
-        // 判断该用户是否有权限登陆后台
-        if (login.getIsLock() == 0) {
-            session.setAttribute("errorMsg", "您没有权限登陆后台，请联系管理员。");
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
+        if (userInfo.getIsLock() == 0){
+            session.setAttribute("errorMsg","您的账号不允许登陆，请联系管理员");
             return "admin/login";
         }
-        // 封装对象
-        UserInfo loginUser = new UserInfo(login.getUserId(), login.getLoginUserName(),login.getNickName(), login.getUserPhone(),login.getUserEmail(), login.getUserAddress(),login.getProfilePictureUrl());
-
-        session.setAttribute(SESSION_USER_NAME, loginUser);
-        // 设置session超时时间
-        session.setMaxInactiveInterval(60 * 60 * 3);
         return "redirect:/admin/index";
     }
 
@@ -132,16 +157,17 @@ public class UserInfoController {
         if (StringUtils.isEmpty(loginUserName) || StringUtils.isEmpty(nickName) || StringUtils.isEmpty(userPhone) ||
                 StringUtils.isEmpty(userEmail) || StringUtils.isEmpty(userAddress)) {
             return "参数不能为空！";
-
         }
-        if (request.getSession().getAttribute(SESSION_USER_NAME)==null){
-            System.out.println("获取信息失败");
-            return "修改失败";
+        if (SecurityUtils.getSubject()==null){
+            return "异常操作";
         }
-        UserInfo userInfo = (UserInfo) request.getSession().getAttribute(SESSION_USER_NAME);
-        String userId = userInfo.getUserId();
-        if(userInfoService.modifyInformationByUserId(new UserInfo(userId, loginUserName, nickName, userPhone, userEmail, userAddress, profilePictureUrl))>0){
-            request.getSession().removeAttribute(SESSION_USER_NAME);
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
+        if (StringUtils.isEmpty(profilePictureUrl)){
+            profilePictureUrl = userInfo.getProfilePictureUrl();
+        }
+        if(userInfoService.modifyInformationByUserId(new UserInfo(userInfo.getUserId(), loginUserName, nickName, userPhone, userEmail, userAddress, profilePictureUrl))>0){
+            SecurityUtils.getSubject().logout();
             return "success";
         }else {
             return "修改失败";
@@ -164,9 +190,9 @@ public class UserInfoController {
         if (StringUtils.isEmpty(originalPassword) || StringUtils.isEmpty(newPassword)) {
             return "参数不能为空!";
         }
-        UserInfo userInfo = (UserInfo) request.getSession().getAttribute(SESSION_USER_NAME);
-        if (userInfoService.changePassword(userInfo.getUserId(),originalPassword,newPassword)){
-            request.getSession().removeAttribute(SESSION_USER_NAME);
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        if (userInfoService.changePassword(principal,originalPassword,newPassword)){
+            SecurityUtils.getSubject().logout();
             return "success";
         }
         return "修改失败！";
@@ -179,8 +205,8 @@ public class UserInfoController {
      */
     @GetMapping("/loginOut")
     public String loginOut(HttpSession session) {
-        session.removeAttribute(SESSION_USER_NAME);
         session.removeAttribute("errorMsg");
+        SecurityUtils.getSubject().logout();
         return "redirect:/";
     }
 }

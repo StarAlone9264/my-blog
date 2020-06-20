@@ -7,7 +7,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
-    <link rel="shortcut icon" th:href="@{/admin/dist/img/favicon.png}"/>
+    <link rel="shortcut icon" th:href="@{/admin/dist/img/blog.png}"/>
     <link rel="stylesheet" th:href="@{/admin/dist/css/font-awesome.min.css}">
     <!-- Ionicons -->
     <link rel="stylesheet" th:href="@{/admin/dist/css/ionicons.min.css}">
@@ -44,17 +44,17 @@
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
                     <i class="fa fa-user-o mr-2"></i> 姓名
-                    <span class="float-right text-muted text-sm" th:text="${session.loginUser.nickName}">那一片星空°</span>
+                    <span class="float-right text-muted text-sm" th:text="${user.nickName}">那一片星空°</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
                     <i class="fa fa-user-secret mr-2"></i> 邮箱
-                    <span class="float-right text-muted text-sm" th:text="${session.loginUser.userEmail}">2532446368@qq.com</span>
+                    <span class="float-right text-muted text-sm" th:text="${user.userEmail}">2532446368@qq.com</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
                     <i class="fa fa-address-card mr-2"></i> 联系地址
-                    <span class="float-right text-muted text-sm" th:text="${session.loginUser.userAddress}">2532446368@qq.com</span>
+                    <span class="float-right text-muted text-sm" th:text="${user.userAddress}">2532446368@qq.com</span>
                 </a>
             </div>
         </li>

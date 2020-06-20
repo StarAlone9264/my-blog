@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * @author Star
  * @version 1.0
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserInfo {
+public class UserInfo implements Serializable {
     private Integer indexId;
     private String userId;
     private String loginUserName;
@@ -45,6 +47,12 @@ public class UserInfo {
         this.loginUserName = loginUserName;
         this.nickName = nickName;
         this.userPhone = userPhone;
+        this.userEmail = userEmail;
+        this.userAddress = userAddress;
+    }
+
+    public UserInfo(String nickName, String userEmail, String userAddress) {
+        this.nickName = nickName;
         this.userEmail = userEmail;
         this.userAddress = userAddress;
     }

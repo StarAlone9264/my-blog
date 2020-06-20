@@ -6,7 +6,10 @@ import com.mysite.blog.pojo.Blog;
 import com.mysite.blog.pojo.UserInfo;
 import com.mysite.blog.service.BlogService;
 import com.mysite.blog.service.CategoryService;
+import com.mysite.blog.service.UserInfoService;
+import com.mysite.blog.service.impl.UserInfoServiceImpl;
 import com.mysite.blog.uitl.*;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -38,6 +41,8 @@ public class BlogController {
     @Resource
     private BlogService blogService;
 
+    @Resource
+    private UserInfoServiceImpl userInfoService;
     /**
      * 跳转
      * @param request request
@@ -46,6 +51,9 @@ public class BlogController {
     @GetMapping("/blog")
     public String list(HttpServletRequest request) {
         request.setAttribute("path", "blog");
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         return "admin/blog";
     }
 
@@ -57,6 +65,9 @@ public class BlogController {
     @GetMapping("/blog/edit")
     public String edit(HttpServletRequest request) {
         request.setAttribute("path", "edit");
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         request.setAttribute("categories", categoryService.getAllCategories());
         return "admin/edit";
     }
@@ -93,6 +104,9 @@ public class BlogController {
         }
         model.addAttribute("blog",blog);
         model.addAttribute("categories",categoryService.getAllCategories());
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         return "admin/edit";
     }
 
@@ -261,7 +275,8 @@ public class BlogController {
         blog.setBlogTags(blogTags);
         blog.setBlogStatus(blogStatus);
         blog.setAllowComment(allowComment);
-        UserInfo userInfo = (UserInfo) httpServletRequest.getSession().getAttribute(SESSION_USER_NAME);
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
         if (userInfo == null){
             return ResultGenerator.genFailResult("请求异常");
         }

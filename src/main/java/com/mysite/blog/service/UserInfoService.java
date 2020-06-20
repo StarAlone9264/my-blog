@@ -11,14 +11,14 @@ import java.util.List;
  * @date 2020/5/29 15:30
  */
 public interface UserInfoService {
-    /**
-     * 用户登陆
-     * @param loginUserName
-     * @param loginUserPassword
-     * @return
-     */
-    UserInfo login(@Param("loginUserName")String loginUserName, @Param("loginUserPassword")String loginUserPassword);
-
+//    /**
+//     * 用户登陆
+//     * @param loginUserName
+//     * @param loginUserPassword
+//     * @return
+//     */
+//    UserInfo login(@Param("loginUserName")String loginUserName, @Param("loginUserPassword")String loginUserPassword);
+    UserInfo login(@Param("loginUserName")String loginUserName);
     /**
      * 修改用户信息
      * @param userInfo

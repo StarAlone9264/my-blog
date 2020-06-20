@@ -1,9 +1,12 @@
 package com.mysite.blog.controller.admin;
 
+import com.mysite.blog.pojo.UserInfo;
 import com.mysite.blog.service.impl.CategoryServiceImpl;
+import com.mysite.blog.service.impl.UserInfoServiceImpl;
 import com.mysite.blog.uitl.PageRequest;
 import com.mysite.blog.uitl.Result;
 import com.mysite.blog.uitl.ResultGenerator;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +27,14 @@ public class CategoryController {
     @Resource
     private CategoryServiceImpl categoryService;
 
+    @Resource
+    private UserInfoServiceImpl userInfoService;
     @GetMapping("/category")
     public String toCategory(HttpServletRequest request){
         request.setAttribute("path","category");
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         return "admin/category";
     }
     /**

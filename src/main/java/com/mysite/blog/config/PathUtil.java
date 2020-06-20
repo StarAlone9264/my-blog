@@ -6,7 +6,7 @@ import java.io.File;
  * @author Star
  * @version 1.0
  * @date 2020/6/7 18:54
- * 图片上传路径
+ * 自定义图片上传路径
  */
 public class PathUtil {
     // 以下代码为本地使用

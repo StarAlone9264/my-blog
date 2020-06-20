@@ -24,20 +24,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private AdminLoginInterceptor adminLoginInterceptor;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        // 添加一个拦截器，拦截以/admin为前缀的url路径
-        registry.addInterceptor(adminLoginInterceptor)
-                .addPathPatterns("/admin/**")
-                // 排除登陆页
-                .excludePathPatterns("/admin/login")
-                // 排除静态资源
-                .excludePathPatterns("/admin/dist/**")
-                .excludePathPatterns("/admin/plugins/**")
-                .excludePathPatterns("/admin/upload/**")
-                .excludePathPatterns("/admin/common/**");
-    }
-
     /**
      * 上传服务器需要删除以下代码
      * 本地不需要注释
