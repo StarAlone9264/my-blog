@@ -103,7 +103,7 @@
 
 <body>
 <div class="lyear-login-box">
-    <div class="lyear-login-left" style="background-image: url(https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture)">
+    <div class="lyear-login-left">
         <div class="lyear-overlay"></div>
         <div class="lyear-featured">
             <h4><div class="hitokoto"></div><small class="hitokoto-from"></small></h4>
@@ -156,28 +156,6 @@
 </div>
 <script type="text/javascript" th:src="@{/admin/common/light_year/js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/common/light_year/js/bootstrap.min.js}"></script>
-<script type="text/javascript">
-    $(function () {
-        $.ajax({
-            type: 'GET',
-            url: 'https://v1.hitokoto.cn',
-            dataType: 'jsonp',
-            jsonp: 'callback',
-            jsonpCallback: 'hitokoto',
-            success (data) {
-                const json = eval("(" + data + ")");
-                $('.hitokoto').html(json.hitokoto);
-                if (json.from_who==null){
-                    json.from_who = '';
-                }
-                $('.hitokoto-from').html('——'+json.from_who+'  '+json.from);
-            },
-            error (jqXHR, textStatus, errorThrown) {
-                // 错误信息处理
-                console.error(textStatus, errorThrown)
-            }
-        });
-    })
-</script>
+<script type="text/javascript" th:src="@{/admin/common/light_year/js/load.js}"></script>
 </body>
 </html>
