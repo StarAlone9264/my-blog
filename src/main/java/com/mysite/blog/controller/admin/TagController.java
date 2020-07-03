@@ -1,6 +1,7 @@
 package com.mysite.blog.controller.admin;
 
 import com.mysite.blog.pojo.UserInfo;
+import com.mysite.blog.service.BlogConfigService;
 import com.mysite.blog.service.impl.TagServiceImpl;
 import com.mysite.blog.service.impl.UserInfoServiceImpl;
 import com.mysite.blog.uitl.PageRequest;
@@ -29,9 +30,14 @@ public class TagController {
 
     @Resource
     private UserInfoServiceImpl userInfoService;
+
+    @Resource
+    private BlogConfigService blogConfigService;
+
     @GetMapping("/tags")
     public String toTag(HttpServletRequest request){
         request.setAttribute("path","tags");
+        request.setAttribute("configurations",blogConfigService.getAllConfigs());
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
         request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));

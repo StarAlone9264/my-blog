@@ -6,6 +6,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +45,7 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
+
     /**
      * DefaultWebSecurityManager
      * @return
@@ -54,8 +56,17 @@ public class ShiroConfig {
         // 关联userRealm
         securityManager.setRealm(userRealm);
         securityManager.setRememberMeManager(rememberMeManager);
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
+
+    @Bean
+    public DefaultWebSessionManager sessionManager(){
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
+        return sessionManager;
+    }
+
 
     /**
      * realm

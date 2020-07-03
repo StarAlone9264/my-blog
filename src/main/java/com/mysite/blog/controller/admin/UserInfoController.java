@@ -3,6 +3,7 @@ package com.mysite.blog.controller.admin;
 import com.mysite.blog.mapper.BlogMapper;
 import com.mysite.blog.pojo.Blog;
 import com.mysite.blog.pojo.UserInfo;
+import com.mysite.blog.service.BlogConfigService;
 import com.mysite.blog.service.impl.BlogServiceImpl;
 import com.mysite.blog.service.impl.CategoryServiceImpl;
 import com.mysite.blog.service.impl.TagServiceImpl;
@@ -45,6 +46,9 @@ public class UserInfoController {
 
     @Resource
     private BlogServiceImpl blogService;
+
+    @Resource
+    private BlogConfigService blogConfigService;
     /**
      * 跳转登陆页
      *
@@ -52,12 +56,14 @@ public class UserInfoController {
      */
     @GetMapping({"/login"})
     public String login(HttpServletRequest request) {
+        request.setAttribute("configurations",blogConfigService.getAllConfigs());
         return "admin/login";
     }
 
     @GetMapping({"", "/", "/index", "/index.html"})
     public String index(HttpServletRequest request) {
         request.setAttribute("path", "index");
+        request.setAttribute("configurations",blogConfigService.getAllConfigs());
         request.setAttribute("blogTotal",blogService.getBlogTotal());
         request.setAttribute("categoryTotal",categoryService.getCategoryTotal());
         request.setAttribute("tagCount", tagService.getTagTotal());
@@ -71,6 +77,7 @@ public class UserInfoController {
     @GetMapping("/profile")
     public String profile(HttpServletRequest request){
         request.setAttribute("path","profile");
+        request.setAttribute("configurations",blogConfigService.getAllConfigs());
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
         request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));

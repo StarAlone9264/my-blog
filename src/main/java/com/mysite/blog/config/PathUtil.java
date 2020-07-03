@@ -15,7 +15,7 @@ public class PathUtil {
     public final static String UPLOAD_PATH_COVER = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static"  + File.separator + "upload" + File.separator + "cover" + File.separator;
     public final static String UPLOAD_PATH_USER_AVATAR = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static"  + File.separator + "upload" + File.separator + "userAvatar" + File.separator;
 
-    // 以下路径为服务器使用
+     // 以下路径为服务器使用
 
 //    public final static String UPLOAD_PATH = "/opt/static/upload/";
 //    public final static String UPLOAD_PATH_COVER = "/opt/static/upload/cover/";

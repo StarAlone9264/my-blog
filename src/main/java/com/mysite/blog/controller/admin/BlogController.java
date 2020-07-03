@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.mysite.blog.config.PathUtil;
 import com.mysite.blog.pojo.Blog;
 import com.mysite.blog.pojo.UserInfo;
+import com.mysite.blog.service.BlogConfigService;
 import com.mysite.blog.service.BlogService;
 import com.mysite.blog.service.CategoryService;
 import com.mysite.blog.service.UserInfoService;
@@ -43,6 +44,9 @@ public class BlogController {
 
     @Resource
     private UserInfoServiceImpl userInfoService;
+
+    @Resource
+    private BlogConfigService blogConfigService;
     /**
      * 跳转
      * @param request request
@@ -51,6 +55,7 @@ public class BlogController {
     @GetMapping("/blog")
     public String list(HttpServletRequest request) {
         request.setAttribute("path", "blog");
+        request.setAttribute("configurations",blogConfigService.getAllConfigs());
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
         request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
@@ -65,6 +70,7 @@ public class BlogController {
     @GetMapping("/blog/edit")
     public String edit(HttpServletRequest request) {
         request.setAttribute("path", "edit");
+        request.setAttribute("configurations",blogConfigService.getAllConfigs());
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
         request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
@@ -98,6 +104,7 @@ public class BlogController {
     @GetMapping("/blog/edit/{blogPrimaryId}")
     public String edit(HttpServletRequest request, @PathVariable("blogPrimaryId") Long blogPrimaryId, Model model) {
         request.setAttribute("path", "edit");
+        request.setAttribute("configurations",blogConfigService.getAllConfigs());
         Blog blog = blogService.getBlogById(blogPrimaryId);
         if (blog == null) {
             return "error/error_400";
