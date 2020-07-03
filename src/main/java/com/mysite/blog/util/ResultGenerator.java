@@ -1,4 +1,4 @@
-package com.mysite.blog.uitl;
+package com.mysite.blog.util;
 
 import org.springframework.util.StringUtils;
 

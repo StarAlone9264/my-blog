@@ -1,4 +1,4 @@
-package com.mysite.blog.uitl;
+package com.mysite.blog.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

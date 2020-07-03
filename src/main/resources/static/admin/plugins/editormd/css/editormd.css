@@ -2969,7 +2969,7 @@
 }
 
 .fa-user-secret:before {
-  content: "\f21b";
+  /*content: "\f21b";*/
 }
 
 .fa-motorcycle:before {

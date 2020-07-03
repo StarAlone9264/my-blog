@@ -1804,7 +1804,7 @@
  
  .am-article-bd img {
    display: block;
-   max-width: 70%;
+   max-width: 80%;
  }
  /* ==========================================================================
      Component: Comment
@@ -2212,7 +2212,7 @@
  }
  
  .blog-footer {
-   padding: 2rem 0 2rem 0;
+   padding: 1.5rem 0 1.5rem 0;
    margin-top: 5rem;
    background-color: #273547;
    color: #fff !important
