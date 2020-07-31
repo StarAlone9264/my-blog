@@ -50,7 +50,11 @@ $(function () {
         },
         onComplete: function (file, r) {
             if (r != null && r.resultCode == 200) {
-                $('#profilePictureUrl').val(r.data);
+                swal("上传成功，请点击确认修改进行提交", {
+                    icon: "success",
+                }).then(function () {
+                    $('#profilePictureUrl').val(r.data);
+                });
                 return false;
             } else {
                 alert("error");
@@ -70,7 +74,6 @@ $(function () {
                 url: "/admin/profile/changePassword",
                 data: params,
                 success: function (r) {
-                    console.log(r);
                     if (r == 'success') {
                         alert('密码变更成功！');
                         window.location.href = '/admin/login';

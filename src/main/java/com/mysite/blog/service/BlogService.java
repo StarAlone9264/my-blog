@@ -3,13 +3,10 @@ package com.mysite.blog.service;
 import com.mysite.blog.controller.vo.BlogDetailVo;
 import com.mysite.blog.controller.vo.SimpleBlogListVo;
 import com.mysite.blog.pojo.Blog;
-import com.mysite.blog.uitl.PageRequest;
-import com.mysite.blog.uitl.PageResult;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import com.mysite.blog.util.PageRequest;
+import com.mysite.blog.util.PageResult;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Star

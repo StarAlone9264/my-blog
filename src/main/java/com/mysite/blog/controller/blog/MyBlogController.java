@@ -1,21 +1,17 @@
 package com.mysite.blog.controller.blog;
 
 import com.mysite.blog.controller.vo.BlogDetailVo;
-import com.mysite.blog.pojo.BlogTagCount;
 import com.mysite.blog.service.BlogConfigService;
 import com.mysite.blog.service.BlogService;
 import com.mysite.blog.service.CategoryService;
 import com.mysite.blog.service.TagService;
-import com.mysite.blog.uitl.PageResult;
+import com.mysite.blog.util.PageResult;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @author Star

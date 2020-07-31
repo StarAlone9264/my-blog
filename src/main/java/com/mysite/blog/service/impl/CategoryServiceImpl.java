@@ -5,10 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.mysite.blog.mapper.CategoryMapper;
 import com.mysite.blog.pojo.Category;
 import com.mysite.blog.service.CategoryService;
-import com.mysite.blog.uitl.PageRequest;
-import com.mysite.blog.uitl.PageResult;
-import com.mysite.blog.uitl.PageUtils;
-import com.mysite.blog.uitl.PatternUtil;
+import com.mysite.blog.util.PageRequest;
+import com.mysite.blog.util.PageResult;
+import com.mysite.blog.util.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

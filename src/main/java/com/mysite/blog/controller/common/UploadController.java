@@ -1,8 +1,8 @@
 package com.mysite.blog.controller.common;
 
 import com.mysite.blog.config.PathUtil;
-import com.mysite.blog.uitl.Result;
-import com.mysite.blog.uitl.ResultGenerator;
+import com.mysite.blog.util.Result;
+import com.mysite.blog.util.ResultGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

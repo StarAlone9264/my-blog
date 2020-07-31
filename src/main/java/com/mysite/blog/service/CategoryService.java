@@ -1,8 +1,8 @@
 package com.mysite.blog.service;
 
 import com.mysite.blog.pojo.Category;
-import com.mysite.blog.uitl.PageRequest;
-import com.mysite.blog.uitl.PageResult;
+import com.mysite.blog.util.PageRequest;
+import com.mysite.blog.util.PageResult;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

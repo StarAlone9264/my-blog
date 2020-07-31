@@ -1,10 +1,9 @@
 package com.mysite.blog.service;
 
 import com.mysite.blog.pojo.BlogTagCount;
-import com.mysite.blog.pojo.Tag;
-import com.mysite.blog.uitl.PageRequest;
-import com.mysite.blog.uitl.PageResult;
-import com.mysite.blog.uitl.Result;
+import com.mysite.blog.util.PageRequest;
+import com.mysite.blog.util.PageResult;
+import com.mysite.blog.util.Result;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

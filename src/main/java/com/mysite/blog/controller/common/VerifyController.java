@@ -1,12 +1,11 @@
 package com.mysite.blog.controller.common;
 
-import com.mysite.blog.uitl.VerifyUtil;
+import com.mysite.blog.util.VerifyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.Session;
 
 /**
  * @author Star

@@ -43,7 +43,11 @@ $(function () {
         },
         onComplete: function (file, r) {
             if (r != null && r.resultCode == 200) {
-                $('#websiteLogoUrl').val(r.data);
+                swal("上传成功，请点击确认修改进行提交", {
+                    icon: "success",
+                }).then(function () {
+                    $('#websiteLogoUrl').val(r.data);
+                });
                 return false;
             } else {
                 alert("error");
@@ -63,7 +67,11 @@ $(function () {
         },
         onComplete: function (file, r) {
             if (r != null && r.resultCode == 200) {
-                $('#websiteIconUrl').val(r.data);
+                swal("上传成功，请点击确认修改进行提交", {
+                    icon: "success",
+                }).then(function () {
+                    $('#websiteIconUrl').val(r.data);
+                });
                 return false;
             } else {
                 alert("error");
@@ -83,7 +91,11 @@ $(function () {
         },
         onComplete: function (file, r) {
             if (r != null && r.resultCode == 200) {
-                $('#websiteCoverUrl').val(r.data);
+                swal("上传成功，请点击确认修改进行提交", {
+                    icon: "success",
+                }).then(function () {
+                    $('#websiteCoverUrl').val(r.data);
+                });
                 return false;
             } else {
                 alert("error");

@@ -3,7 +3,7 @@ package com.mysite.blog.service.impl;
 import com.mysite.blog.mapper.UserInfoMapper;
 import com.mysite.blog.pojo.UserInfo;
 import com.mysite.blog.service.UserInfoService;
-import com.mysite.blog.uitl.Md5Util;
+import com.mysite.blog.util.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

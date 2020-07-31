@@ -7,14 +7,13 @@ import com.mysite.blog.controller.vo.SimpleBlogListVo;
 import com.mysite.blog.mapper.*;
 import com.mysite.blog.pojo.*;
 import com.mysite.blog.service.BlogService;
-import com.mysite.blog.uitl.*;
+import com.mysite.blog.util.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
