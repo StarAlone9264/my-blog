@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class MyBlogController {
-
     public static String theme = "amaze";
 
     @Resource

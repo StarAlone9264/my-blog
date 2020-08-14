@@ -67,15 +67,6 @@ public class UserInfoController {
         return "admin/index";
     }
 
-    @GetMapping("/profile")
-    public String profile(HttpServletRequest request){
-        request.setAttribute("path","profile");
-        request.setAttribute("configurations",blogConfigService.getAllConfigs());
-        String principal = (String) SecurityUtils.getSubject().getPrincipal();
-        UserInfo userInfo = userInfoService.queryById(principal);
-        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
-        return "admin/profile";
-    }
     /**
      * 登陆
      *
@@ -137,6 +128,16 @@ public class UserInfoController {
             return "admin/login";
         }
         return "redirect:/admin/index";
+    }
+
+    @GetMapping("/profile")
+    public String profile(HttpServletRequest request){
+        request.setAttribute("path","profile");
+        request.setAttribute("configurations",blogConfigService.getAllConfigs());
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        UserInfo userInfo = userInfoService.queryById(principal);
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
+        return "admin/profile";
     }
 
     /**

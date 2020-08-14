@@ -23,4 +23,11 @@ $(function () {
             console.error(textStatus, errorThrown)
         }
     });
+
+    $('#forget-password').click(function () {
+        swal("密码你都忘，没有找回功能。", {
+            icon: "error",
+        });
+        return false;
+    })
 });
