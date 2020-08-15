@@ -1,4 +1,5 @@
 $(function () {
+    var url = window.location.protocol+"//"+window.location.host;
     //修改个人信息
     $('#updateUserNameButton').click(function () {
         $("#updateUserNameButton").attr("disabled",true);
@@ -20,7 +21,7 @@ $(function () {
                         swal("保存成功", {
                             icon: "success",
                         }).then(function () {
-                            window.location.href = '/admin/login';
+                            window.location.replace(url+"/admin/login");
                         });
                     } else {
                         swal("修改失败", {
@@ -75,8 +76,11 @@ $(function () {
                 data: params,
                 success: function (r) {
                     if (r == 'success') {
-                        alert('密码变更成功！');
-                        window.location.href = '/admin/login';
+                        swal("密码变更成功！", {
+                            icon: "success",
+                        }).then(function () {
+                            window.location.replace(url+"/admin/login");
+                        });
                     } else {
                         alert(r);
                         $("#updatePasswordButton").attr("disabled",false);
@@ -87,7 +91,7 @@ $(function () {
             $("#updatePasswordButton").attr("disabled",false);
         }
     });
-})
+});
 
 /**
  * 名称验证

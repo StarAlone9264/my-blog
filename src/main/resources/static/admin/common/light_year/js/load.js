@@ -29,5 +29,15 @@ $(function () {
             icon: "error",
         });
         return false;
-    })
+    });
 });
+
+function login() {
+    var $key = $('#key').val();
+    var $password = $('#password').val();
+    var key = CryptoJS.enc.Utf8.parse($key);
+    var password = CryptoJS.enc.Utf8.parse($password);
+    var encrypted = CryptoJS.AES.encrypt(password, key, {mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7});
+    var encryptedPwd = encrypted.toString();
+    $('#password').val(encryptedPwd);
+}

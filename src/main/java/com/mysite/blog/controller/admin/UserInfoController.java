@@ -6,7 +6,9 @@ import com.mysite.blog.service.impl.BlogServiceImpl;
 import com.mysite.blog.service.impl.CategoryServiceImpl;
 import com.mysite.blog.service.impl.TagServiceImpl;
 import com.mysite.blog.service.impl.UserInfoServiceImpl;
+import com.mysite.blog.util.AesUtil;
 import com.mysite.blog.util.Md5Util;
+import com.mysite.blog.util.RandomUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -49,7 +51,15 @@ public class UserInfoController {
      */
     @GetMapping({"/login"})
     public String login(HttpServletRequest request) {
+        // 强制登陆，退出当前用户
+        Subject subject = SecurityUtils.getSubject();
+        Object principal = subject.getPrincipal();
+        if (principal != null){
+            request.setAttribute("errorMsg", "检测到强制登陆，请重新登陆！");
+            subject.logout();
+        }
         request.setAttribute("configurations",blogConfigService.getAllConfigs());
+        request.setAttribute("key", RandomUtils.getRandomStr(16));
         return "admin/login";
     }
 
@@ -75,28 +85,41 @@ public class UserInfoController {
      * @return 返回页
      */
     @PostMapping({"/login"})
-    public String login(HttpSession session, HttpServletRequest request, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("verifyCode") String verifyCode, Boolean rememberMe) {
+    public String login(HttpSession session, HttpServletRequest request, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("verifyCode") String verifyCode, @RequestParam("key") String key,Boolean rememberMe) {
         // 判断用户名密码是否为空
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            session.setAttribute("errorMsg", "用户名或密码不能为空！");
+            request.setAttribute("errorMsg", "用户名或密码不能为空！");
             request.setAttribute("configurations",blogConfigService.getAllConfigs());
+            request.setAttribute("key", RandomUtils.getRandomStr(16));
             return "admin/login";
         }
         // 判断验证码是否为空
         if (StringUtils.isEmpty(verifyCode)) {
-            session.setAttribute("errorMsg", "验证码不能为空！");
+            request.setAttribute("errorMsg", "验证码不能为空！");
             request.setAttribute("configurations",blogConfigService.getAllConfigs());
+            request.setAttribute("key", RandomUtils.getRandomStr(16));
             return "admin/login";
         }
         // 获取session中的验证码
         String sessionVerifyCode = (String) session.getAttribute("RANDOM_CODE_KEY");
         // 判断用户填写的验证码是否与session中的一致
         if (!verifyCode.equalsIgnoreCase(sessionVerifyCode)) {
-            session.setAttribute("errorMsg", "验证码不正确！");
+            request.setAttribute("errorMsg", "验证码不正确！");
             request.setAttribute("configurations",blogConfigService.getAllConfigs());
+            request.setAttribute("key", RandomUtils.getRandomStr(16));
             return "admin/login";
         }
-        password = Md5Util.Md5Encode(password,"UTF-8");
+
+        // 判断用户填写的验证码是否与session中的一致
+        if (StringUtils.isEmpty(key)) {
+            request.setAttribute("errorMsg", "哎呀，发生了未知的错误，建议您重新进入登陆页试试呢！");
+            request.setAttribute("configurations",blogConfigService.getAllConfigs());
+            request.setAttribute("key", RandomUtils.getRandomStr(16));
+            return "admin/login";
+        }
+
+        String decrypt = AesUtil.decrypt(password, key);
+        password = Md5Util.Md5Encode(decrypt,"UTF-8");
         Subject subject = SecurityUtils.getSubject();
         // 如果存在用户 则 踢出
         if (subject.isAuthenticated()) {
@@ -112,19 +135,22 @@ public class UserInfoController {
         try {
             subject.login(token);
         } catch (UnknownAccountException e) {
-            session.setAttribute("errorMsg","用户名不存在！");
+            request.setAttribute("errorMsg","用户名不存在！");
             request.setAttribute("configurations",blogConfigService.getAllConfigs());
+            request.setAttribute("key", RandomUtils.getRandomStr(16));
             return "admin/login";
         } catch (IncorrectCredentialsException e){
-            session.setAttribute("errorMsg","密码错误");
+            request.setAttribute("errorMsg","密码错误");
             request.setAttribute("configurations",blogConfigService.getAllConfigs());
+            request.setAttribute("key", RandomUtils.getRandomStr(16));
             return "admin/login";
         }
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
         if (userInfo.getIsLock() == 0){
-            session.setAttribute("errorMsg","您的账号不允许登陆，请联系管理员");
+            request.setAttribute("errorMsg","您的账号已被锁定，请联系网站管理员");
             request.setAttribute("configurations",blogConfigService.getAllConfigs());
+            request.setAttribute("key", RandomUtils.getRandomStr(16));
             return "admin/login";
         }
         return "redirect:/admin/index";
@@ -210,8 +236,7 @@ public class UserInfoController {
      * @return String
      */
     @GetMapping("/loginOut")
-    public String loginOut(HttpSession session) {
-        session.removeAttribute("errorMsg");
+    public String loginOut() {
         SecurityUtils.getSubject().logout();
         return "redirect:/";
     }
