@@ -116,7 +116,7 @@
         <div th:if="${not #strings.isEmpty(errorMsg)}" class="text-center">
             <div class="alert alert-danger" th:text="${errorMsg}"></div>
         </div>
-        <form th:action="@{/admin/login}" method="post">
+        <form th:action="@{/admin/login}" method="post" autocomplete="off">
             <div class="form-group">
                 <input type="hidden" name="key" id="key" th:value="${key}">
                 <label for="username">用户名</label>
