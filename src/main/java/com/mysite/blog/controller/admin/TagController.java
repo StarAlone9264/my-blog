@@ -40,7 +40,7 @@ public class TagController {
         request.setAttribute("configurations",blogConfigService.getAllConfigs());
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
-        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getSex(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         return "admin/tag";
     }
 

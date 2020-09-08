@@ -34,8 +34,12 @@
             #{id}
         </foreach>
     </update>
-    <select id="getBlogTotal" resultType="int">
-        select count(*) from tb_blog where is_delete = 0;
+    <select id="getBlogTotal" resultType="int" parameterType="java.lang.String">
+        select count(*) from tb_blog ,tb_blog_user_relation
+            where
+        tb_blog.blog_id = tb_blog_user_relation.blog_id
+        and is_delete = 0
+        and user_id = #{userId};
     </select>
 
     <select id="queryBlogList" parameterType="map" resultMap="BaseResultMap">
@@ -52,8 +56,23 @@
         <if test="blogCategoryId != null">
             and blog_category_id = #{blogCategoryId}
         </if>
+        <if test="blogId != null">
+            and blog_id = #{blogId}
+        </if>
         order by blog_primary_id desc
     </select>
+
+    <select id="queryUserBlogList" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List" />
+        from tb_blog
+        where is_delete = 0 and blog_id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item.blogId,jdbcType=VARCHAR}
+        </foreach>
+        order by blog_primary_id desc
+    </select>
+
 
     <select id="queryPageByTagId" parameterType="Map" resultMap="BaseResultMap">
         select

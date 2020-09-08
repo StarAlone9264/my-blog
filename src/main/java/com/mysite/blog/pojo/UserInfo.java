@@ -32,14 +32,28 @@ public class UserInfo implements Serializable {
     private String profilePictureUrl;
     private Integer isLock;
 
-    public UserInfo(String userId, String loginUserName, String nickName, String userPhone, String userEmail, String userAddress, String profilePictureUrl) {
+    public UserInfo(String userId, String loginUserName, String nickName, Integer sex, String userPhone, String userEmail, String userAddress, String profilePictureUrl) {
         this.userId = userId;
         this.loginUserName = loginUserName;
         this.nickName = nickName;
+        this.sex = sex;
         this.userPhone = userPhone;
         this.userEmail = userEmail;
         this.userAddress = userAddress;
         this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public UserInfo(String userId, String loginUserName, String loginUserPassword, String nickName, Integer sex, String userPhone, String userEmail, String userAddress, String profilePictureUrl, Integer isLock) {
+        this.userId = userId;
+        this.loginUserName = loginUserName;
+        this.loginUserPassword = loginUserPassword;
+        this.nickName = nickName;
+        this.sex = sex;
+        this.userPhone = userPhone;
+        this.userEmail = userEmail;
+        this.userAddress = userAddress;
+        this.profilePictureUrl = profilePictureUrl;
+        this.isLock = isLock;
     }
 
     public UserInfo(String userId, String loginUserName, String nickName, String userPhone, String userEmail, String userAddress) {

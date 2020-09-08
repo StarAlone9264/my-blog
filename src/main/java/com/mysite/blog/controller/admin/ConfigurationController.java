@@ -6,6 +6,8 @@ import com.mysite.blog.service.impl.UserInfoServiceImpl;
 import com.mysite.blog.util.Result;
 import com.mysite.blog.util.ResultGenerator;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.springframework.context.annotation.Role;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +35,13 @@ public class ConfigurationController {
      * @return 返回页
      */
     @GetMapping("/configurations")
+    @RequiresRoles("administrator")
     public String toConfiguration(HttpServletRequest request){
         request.setAttribute("path","configurations");
         request.setAttribute("configurations",blogConfigService.getAllConfigs());
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
-        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getSex(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         return "admin/configuration";
     }
 

@@ -37,11 +37,9 @@ $(function () {
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         },
         loadComplete: function (mes) {
-            if (mes.message === 'null'){
+            if (mes.data == null){
                 swal("未查询到数据",{
                     icon : "error"
-                }).then(function () {
-                    window.location.reload();
                 });
             }
         }

@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,7 +35,6 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/admin")
 public class BlogController {
-    private final String SESSION_USER_NAME = "loginUser";
     @Resource
     private CategoryService categoryService;
 
@@ -57,7 +57,7 @@ public class BlogController {
         request.setAttribute("configurations",blogConfigService.getAllConfigs());
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
-        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getSex(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         return "admin/blog";
     }
 
@@ -72,7 +72,7 @@ public class BlogController {
         request.setAttribute("configurations",blogConfigService.getAllConfigs());
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
-        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getSex(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         request.setAttribute("categories", categoryService.getAllCategories());
         return "admin/edit";
     }
@@ -90,7 +90,8 @@ public class BlogController {
         }
         String pageNum = (String) params.get("page");
         String pageSize = (String) params.get("limit");
-        return ResultGenerator.genSuccessResult(blogService.findPage(new PageRequest(Integer.parseInt(pageNum),Integer.parseInt(pageSize))));
+        String principal = (String) SecurityUtils.getSubject().getPrincipal();
+        return ResultGenerator.genSuccessResult(blogService.queryUserBlogList(new PageRequest(Integer.parseInt(pageNum),Integer.parseInt(pageSize)),principal));
     }
 
     /**
@@ -112,7 +113,7 @@ public class BlogController {
         model.addAttribute("categories",categoryService.getAllCategories());
         String principal = (String) SecurityUtils.getSubject().getPrincipal();
         UserInfo userInfo = userInfoService.queryById(principal);
-        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
+        request.setAttribute("user",new UserInfo(userInfo.getUserId(), userInfo.getLoginUserName(), userInfo.getNickName(), userInfo.getSex(), userInfo.getUserPhone(), userInfo.getUserEmail(), userInfo.getUserAddress(), userInfo.getProfilePictureUrl()));
         return "admin/edit";
     }
 

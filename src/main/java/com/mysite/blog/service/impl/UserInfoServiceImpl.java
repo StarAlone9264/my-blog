@@ -1,13 +1,19 @@
 package com.mysite.blog.service.impl;
 
+import com.mysite.blog.mapper.RoleUserRelationMapper;
 import com.mysite.blog.mapper.UserInfoMapper;
+import com.mysite.blog.pojo.RoleUserRelation;
 import com.mysite.blog.pojo.UserInfo;
 import com.mysite.blog.service.UserInfoService;
 import com.mysite.blog.util.Md5Util;
+import com.mysite.blog.util.RandomName;
+import com.mysite.blog.util.UuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Star
@@ -16,9 +22,11 @@ import java.util.List;
  */
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
-
-    @Autowired
+    @Resource
     private UserInfoMapper userInfoMapper;
+
+    @Resource
+    private RoleUserRelationMapper roleUserRelationMapper;
 
     @Override
     public UserInfo login(String loginUserName) {
@@ -56,5 +64,32 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public List<UserInfo> queryAll() {
         return userInfoMapper.queryAll();
+    }
+
+    @Override
+    public String addUser(String loginUserName, String loginUserPassword) {
+        UserInfo userInfo = userInfoMapper.login(loginUserName);
+        if (userInfo != null){
+            return "exist";
+        }
+        String pwd = Md5Util.Md5Encode(loginUserPassword,"UTF-8");
+        String userId = UuidUtil.getUUID();
+        String nickName = RandomName.getStringRandom(6);
+        // 8张图片随机
+        int randomInt =  new Random().nextInt(8)+1;
+        String url = "/admin/dist/img/user"+randomInt+"-128x128.jpg";
+        UserInfo user = new UserInfo(userId, loginUserName, pwd, nickName, 1, null, null, null, url, 1);
+        if (userInfoMapper.addUser(user) > 0){
+            // 默认新添加的用户均为普通用户
+            // 管理员 1
+            // 普通用户 2
+            Integer role = 2;
+            if (roleUserRelationMapper.insert(new RoleUserRelation(role,user.getUserId())) > 0){
+                return "success";
+            }else {
+                return "failed";
+            }
+        }
+        return "failed";
     }
 }

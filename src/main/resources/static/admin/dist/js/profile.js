@@ -5,6 +5,7 @@ $(function () {
         $("#updateUserNameButton").attr("disabled",true);
         var userName = $('#loginUserName').val();
         var nickName = $('#nickName').val();
+        var sex = $('#sex').val();
         var userPhone = $('#userPhone').val();
         var userEmail = $('#userEmail').val();
         var userAddress = $('#userAddress').val();

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -24,27 +25,27 @@ import java.util.*;
 @Service
 public class BlogServiceImpl implements BlogService {
 
-    @Autowired
+    @Resource
     private BlogMapper blogMapper;
 
-    @Autowired
+    @Resource
     private CategoryMapper categoryMapper;
 
-    @Autowired
+    @Resource
     private TagMapper tagMapper;
 
-    @Autowired
+    @Resource
     private BlogTagRelationMapper blogTagRelationMapper;
 
-    @Autowired
+    @Resource
     private BlogUserRelationMapper blogUserRelationMapper;
 
-    @Autowired
+    @Resource
     private UserInfoMapper userInfoMapper;
 
     @Override
-    public int getBlogTotal() {
-        return blogMapper.getBlogTotal();
+    public int getBlogTotal(String userId) {
+        return blogMapper.getBlogTotal(userId);
     }
 
     @Override
@@ -240,6 +241,42 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public PageResult findPage(PageRequest pageRequest) {
         return PageUtils.getPageResult(pageRequest, getPageInfo(pageRequest,null));
+    }
+
+    @Override
+    public PageResult queryUserBlogList(PageRequest pageRequest, String userId) {
+        List<BlogUserRelation> blogIdList = blogUserRelationMapper.queryBlogId(userId);
+        if (blogIdList.isEmpty()){
+            return null;
+        }
+        for (BlogUserRelation blogUserRelation : blogIdList) {
+            System.out.println(blogUserRelation);
+        }
+        return PageUtils.getPageResult(pageRequest, getPageInfoByUserId(pageRequest,blogIdList));
+    }
+
+    private PageInfo<Blog> getPageInfoByUserId(PageRequest pageRequest, List list) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        List<Blog> blogList = blogMapper.queryUserBlogList(list);
+        PageInfo<Blog> blogPageInfo = new PageInfo<>(list);
+        List<Blog> blogUserList = new ArrayList<>();
+        // 通过关系数据 给博客添加作者信息
+        for (Blog blog : blogList) {
+            Map map1 = new HashMap();
+            map1.put("blogId",blog.getBlogId());
+            BlogUserRelation blogUserRelation = blogUserRelationMapper.queryDynamic(map1);
+            UserInfo userInfo = userInfoMapper.selectByUserId(blogUserRelation.getUserId());
+            Map map2 = new HashMap();
+            // profilePictureUrl nickName
+            map2.put("nickName",userInfo.getNickName());
+            map2.put("profilePictureUrl",userInfo.getProfilePictureUrl());
+            blog.setMap(map2);
+            blogUserList.add(blog);
+        }
+        blogPageInfo.setList(blogUserList);
+        return blogPageInfo;
     }
 
     @Override

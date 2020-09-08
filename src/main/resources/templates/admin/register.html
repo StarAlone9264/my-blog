@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="browsermode" content="application">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="320">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=1280,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <title>注册页</title>
+    <link rel="icon" th:href="@{${configurations.get('websiteIconUrl')}}" type="image/ico">
+    <meta name="keywords" content="我的博客">
+    <meta name="description" content="我的博客">
+    <meta name="author" content="star">
+    <link th:href="@{/admin/common/css/vendor.style.css?afd0be12dc329c5b1db7}" rel="stylesheet">
+    <link th:href="@{/admin/common/css/login.style.css?afd0be12dc329c5b1db7}" rel="stylesheet">
+<body>
+<div id="mount">
+    <div data-reactroot="">
+        <div class="_1RxfFVyy86UE1t7lqCDcGD">
+            <div class="_3CkMCIo8-RsWtcLQqsuKBh">
+                <div class="_3lr3h2hawOi8pO8fYLQcjI">My Blog</div>
+                <div class="_6vZdUKmPDGrrza0LnuXD9">
+                    <div>
+                        <div class="mobileIcon"></div>
+                        <input type="text" maxlength="15" autocomplete="off" name="loginUserName" placeholder="请输入你的登陆名">
+                        <p class="_2nSTvdgBwioyepYsyeaVPN"></p>
+                    </div>
+                </div>
+                <div class="_6vZdUKmPDGrrza0LnuXD9">
+                    <div>
+                        <div class="passwordIcon"></div>
+                        <input type="password" autocomplete="off" name="loginUserPassword" placeholder="请输入6-20位密码">
+                        <p class="_2nSTvdgBwioyepYsyeaVPN"></p>
+                    </div>
+                </div>
+                <div class="_6vZdUKmPDGrrza0LnuXD9">
+                    <button class="_2ZggRBvDTyawWaQQ6ambu4" onclick="add()">快速注册</button>
+                </div>
+                <div class="_6vZdUKmPDGrrza0LnuXD9">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/admin/common/light_year/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/dist/js/public.js}"></script>
+<script type="text/javascript" th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script type="text/javascript" th:src="@{/admin/dist/js/register.js}" charset="UTF-8"></script>
+</body>
+</html>

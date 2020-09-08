@@ -38,7 +38,7 @@
     <update id="modifyInformationByUserId" parameterType="com.mysite.blog.pojo.UserInfo">
         update tb_user
             set
-                login_user_name = #{loginUserName},nick_name = #{nickName},user_phone = #{userPhone},
+                login_user_name = #{loginUserName},nick_name = #{nickName}, sex = #{sex} ,user_phone = #{userPhone},
                 user_email = #{userEmail},user_address = #{userAddress}
                 <if test="profilePictureUrl != null">
                     ,profile_picture_url = #{profilePictureUrl}
@@ -64,4 +64,71 @@
         from tb_user
         where user_id = #{userId};
     </select>
+    <insert id="addUser" parameterType="com.mysite.blog.pojo.UserInfo" useGeneratedKeys="true" keyProperty="indexId">
+        insert into tb_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="loginUserName != null">
+                login_user_name,
+            </if>
+            <if test="loginUserPassword != null">
+                login_user_password,
+            </if>
+            <if test="nickName != null">
+                nick_name,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="userEmail != null">
+                user_email,
+            </if>
+            <if test="userAddress != null">
+                user_address,
+            </if>
+            <if test="profilePictureUrl != null">
+                profile_picture_url,
+            </if>
+            <if test="isLock != null">
+                is_lock,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="loginUserName != null">
+                #{loginUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginUserPassword != null">
+                #{loginUserPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userAddress != null">
+                #{userAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="profilePictureUrl != null">
+                #{profilePictureUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="isLock != null">
+                #{isLock,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
 </mapper>

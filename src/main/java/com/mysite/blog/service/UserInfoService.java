@@ -11,13 +11,11 @@ import java.util.List;
  * @date 2020/5/29 15:30
  */
 public interface UserInfoService {
-//    /**
-//     * 用户登陆
-//     * @param loginUserName
-//     * @param loginUserPassword
-//     * @return
-//     */
-//    UserInfo login(@Param("loginUserName")String loginUserName, @Param("loginUserPassword")String loginUserPassword);
+    /**
+     * 用户登陆
+     * @param loginUserName 用户名
+     * @return 用户对象
+     */
     UserInfo login(@Param("loginUserName")String loginUserName);
     /**
      * 修改用户信息
@@ -39,4 +37,13 @@ public interface UserInfoService {
      * @return
      */
     List<UserInfo> queryAll();
+
+    /**
+     * 登陆
+     * @param loginUserName 登陆名
+     * @param loginUserPassword 登陆密码
+     * @return 返回结果
+     */
+    String addUser(String loginUserName , String loginUserPassword);
+
 }

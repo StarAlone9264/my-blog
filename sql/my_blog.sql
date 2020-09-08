@@ -10,6 +10,31 @@ use `my_blog`;
 /**
   创建表
  */
+drop table if exists `tb_role`;
+-- （`tb_role`）权限表
+create table `tb_role`
+(
+    `role_id` int auto_increment comment '权限id',
+    `role_name` varchar(50) unique not null comment '权限名',
+    primary key (`role_id`)
+)engine=innoDB default charset=utf8;
+
+insert into `tb_role`(`role_name`) values('administrator');
+insert into `tb_role`(`role_name`) values('general_user');
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+drop table if exists `tb_role_user_relation`;
+
+create table `tb_role_user_relation`
+(
+    `relation_id` int auto_increment comment '关系id',
+    `role_id` int not null comment '权限id',
+    `user_id` char(32) not null comment '用户uuid',
+    `create_time` datetime default CURRENT_TIMESTAMP comment '创建时间',
+    primary key (`relation_id`)
+)engine=innoDB default charset=utf8;
+
+insert into `tb_role_user_relation`(`role_id`,`user_id`) values(1,'a25f81d2b11111eabe5c8c164501e7ab');
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 drop table if exists `tb_user`;
 -- （`tb_user`）用户表
 create table `tb_user`
@@ -29,7 +54,7 @@ create table `tb_user`
 ) engine=innoDB default charset=utf8;
 -- 测试用户
 INSERT INTO `tb_user`(`user_id`, `login_user_name`, `login_user_password`, `nick_name`, `sex`, `user_phone`, `user_email`, `user_address`, `profile_picture_url`)
-VALUES ('a25f81d2b11111eabe5c8c164501e7ab','admin',md5('admin'),'alone丶star',1,'18791288755','2532446368@qq.com','陕西省榆林市绥德县','/upload/userAvatar/20200618_11115618.jpg');
+VALUES ('a25f81d2b11111eabe5c8c164501e7ab','admin',md5('admin'),'alone丶star',1,'18791288755','2532446368@qq.com','陕西省西安市','/upload/userAvatar/20200618_11115618.jpg');
 
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 drop table if exists `tb_category`;
@@ -98,6 +123,10 @@ VALUES (1,'3f5eb0c467984b9d8ad4295fab3f63fd','大家好，我是阿航','about',
 > 未曾失败的人恐怕也未曾成功过——佚名
 
 ![可爱狗子](/upload/6month/pg-7c62a692b3e14a8ca6e49946a85a1cb8.jpg "可爱狗子")',3,'日常','你好,世界',1,0,0,0,'2020-06-18 11:31:36','2020-06-18 11:31:36');
+
+
+
+
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tb_blog_tag_relation`;
 -- 博客 标签关系表
@@ -116,7 +145,7 @@ drop table if exists `tb_blog_user_relation`;
 -- 博客 标签关系表
 CREATE TABLE `tb_blog_user_relation` (
                                          `relation_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '关系表id',
-                                         `blog_id` char(32) NOT NULL COMMENT '博客id',
+                                         `blog_id` char(32) NOT NULL  COMMENT '博客id',
                                          `user_id` char(32) NOT NULL COMMENT '用户id',
                                          `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
                                          PRIMARY KEY (`relation_id`)

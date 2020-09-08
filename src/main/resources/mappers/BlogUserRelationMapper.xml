@@ -27,6 +27,11 @@
             </if>
         </where>
     </select>
+    <select id="queryBlogId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="public_column" />
+        from tb_blog_user_relation where user_id = #{userId};
+    </select>
 
     <delete id="deleteByBlogPrimaryId" parameterType="java.lang.String">
         delete from tb_blog_user_relation where blog_id = #{blogId,jdbcType=CHAR};

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <aside th:fragment="sidebar-fragment(path)" class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a th:href="@{/admin/index}" class="brand-link">
@@ -83,7 +84,7 @@
                     </a>
                 </li>
                 <li class="nav-header">系统管理</li>
-                <li class="nav-item">
+                <li class="nav-item" shiro:hasRole="administrator">
                     <a th:href="@{/admin/configurations}"
                        th:class="${path}=='configurations'?'nav-link active':'nav-link'">
                         <i class="fa fa-wrench nav-icon"></i>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysite.blog.mapper.RoleMapper">
+    <resultMap id="roleResultMap" type="com.mysite.blog.pojo.Role">
+        <id  column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+    </resultMap>
+
+    <select id="queryById" resultMap="roleResultMap" parameterType="java.lang.Integer">
+        select `role_id`,`role_name` from tb_role where role_id = #{roleId};
+    </select>
+</mapper>

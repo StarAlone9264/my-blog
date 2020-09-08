@@ -49,6 +49,13 @@
                                                placeholder="请输入昵称" required="true" th:value="${user.getNickName()}">
                                     </div>
                                     <div class="form-group">
+                                        <label>性别</label>
+                                        <select class="form-control" name="sex" id="example-select">
+                                            <option value="1" th:selected="${user.getSex() == 1}">男</option>
+                                            <option value="0" th:selected="${user.getSex() == 0}">女</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>联系电话</label>
                                         <input type="text" class="form-control" id="userPhone"
                                                name="userPhone"

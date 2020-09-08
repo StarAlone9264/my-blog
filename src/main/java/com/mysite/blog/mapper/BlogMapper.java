@@ -1,6 +1,7 @@
 package com.mysite.blog.mapper;
 
 import com.mysite.blog.pojo.Blog;
+import com.mysite.blog.pojo.BlogUserRelation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,7 @@ public interface BlogMapper {
      * 博客条数
      * @return
      */
-    int getBlogTotal();
+    int getBlogTotal(String userId);
 
     /**
      * 添加博客
@@ -38,9 +39,16 @@ public interface BlogMapper {
     List<Blog> queryBlogList(Map blogs);
 
     /**
+     * 根据博客id查询博客
+     * @param list list
+     * @return List
+     */
+    List<Blog> queryUserBlogList(List<BlogUserRelation> list);
+
+    /**
      * 根据主键id查询
-     * @param blogPrimaryId
-     * @return
+     * @param blogPrimaryId blogPrimaryId
+     * @return Blog
      */
     Blog getBlogById(@Param("blogPrimaryId")Long blogPrimaryId);
 

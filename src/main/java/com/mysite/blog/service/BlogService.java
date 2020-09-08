@@ -7,6 +7,7 @@ import com.mysite.blog.util.PageRequest;
 import com.mysite.blog.util.PageResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Star
@@ -17,9 +18,10 @@ public interface BlogService {
 
     /**
      * 博客条数
+     * @param userId 用户id
      * @return int
      */
-    int getBlogTotal();
+    int getBlogTotal(String userId);
     /**
      * 添加博客
      * @param blog blog
@@ -38,7 +40,13 @@ public interface BlogService {
      */
     PageResult findPage(PageRequest pageRequest);
 
-
+    /**
+     * 分页查询用户博客
+     * @param pageRequest pageRequest
+     * @param userId 用户id
+     * @return PageResult
+     */
+    PageResult queryUserBlogList(PageRequest pageRequest,String userId);
     /**
      * 根据id查询
      * @param blogPrimaryId id

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,4 +36,11 @@ public interface BlogUserRelationMapper {
      * @return
      */
     int deleteByBlogPrimaryId(@Param("blogId") String blogId);
+
+    /**
+     * 根据用户id查询博客id
+     * @param userId 用户id
+     * @return 博客id 集合
+     */
+    List<BlogUserRelation> queryBlogId(@Param("userId") String userId);
 }
