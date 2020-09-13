@@ -35,6 +35,7 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        // 添加权限
         SimpleAuthorizationInfo info =new SimpleAuthorizationInfo();
         Map map = new HashMap();
         String userId = (String) principals.getPrimaryPrincipal();

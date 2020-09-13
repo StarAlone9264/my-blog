@@ -8,7 +8,8 @@
 <body>
 <div class="cover">
     <h1>Resource not found <small>Error 404</small></h1>
-    <p class="lead">The requested resource could not be found but may be available again in the future.</p>
+    <p class="lead" th:if="${msg != null}" th:text="${msg}"></p>
+    <p class="lead" th:if="${msg == null}">The requested resource could not be found but may be available again in the future.</p>
     <p><a th:href="@{/}"> << 回到首页 </a></p>
 </div>
 </body>

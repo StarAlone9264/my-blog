@@ -18,18 +18,59 @@
     <meta name="MobileOptimized" content="320">
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <meta name="viewport" content="width=1280,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <title>注册页</title>
+    <title th:if="${forgetPassword != null}" th:text="${forgetPassword}"></title>
+    <title th:if="${forgetPassword == null}">注册页</title>
     <link rel="icon" th:href="@{${configurations.get('websiteIconUrl')}}" type="image/ico">
     <meta name="keywords" content="我的博客">
     <meta name="description" content="我的博客">
     <meta name="author" content="star">
-    <link th:href="@{/admin/common/css/vendor.style.css?afd0be12dc329c5b1db7}" rel="stylesheet">
-    <link th:href="@{/admin/common/css/login.style.css?afd0be12dc329c5b1db7}" rel="stylesheet">
+    <link th:href="@{/admin/common/css/vendor.style.css?afd0be12dc329c5b1db7}" rel="stylesheet"/>
+    <link th:href="@{/admin/common/css/login.style.css?afd0be12dc329c5b1db7}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/sweetalert/sweetalert.css}" rel="stylesheet" />
+
+    <link th:href="@{/admin/common/light_year/css/materialdesignicons.min.css}" rel="stylesheet">
+    <link th:href="@{/admin/common/light_year/css/style.min.css}" rel="stylesheet">
+    <link th:href="@{/user/css/bootstrap3.3.7.min.css}" rel="stylesheet">
+    <style type="text/css">
+        ._3CkMCIo8-RsWtcLQqsuKBh {
+            width: 40%;
+        }
+    </style>
 <body>
 <div id="mount">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"  style="width:65%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        进度
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="progress">
+                                <div id="myDiv" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="75"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                    <!-- <span class="sr-only">45% Complete</span> -->
+                                    0%
+                                </div>
+                            </div>
+                            <span class="tip">正在发送邮件，请耐心等待~~~，你也可以去浏览其他东西。</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="closeModal()" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <div data-reactroot="">
         <div class="_1RxfFVyy86UE1t7lqCDcGD">
-            <div class="_3CkMCIo8-RsWtcLQqsuKBh">
+            <div class="_3CkMCIo8-RsWtcLQqsuKBh" th:if="${forgetPassword == null}">
                 <div class="_3lr3h2hawOi8pO8fYLQcjI">My Blog</div>
                 <div class="_6vZdUKmPDGrrza0LnuXD9">
                     <div>
@@ -46,7 +87,37 @@
                     </div>
                 </div>
                 <div class="_6vZdUKmPDGrrza0LnuXD9">
+                    <div>
+                        <div class="emailIcon"></div>
+                        <input type="email" autocomplete="off" name="userEmail" placeholder="请输入你的邮箱-找回密码使用">
+                        <p class="_2nSTvdgBwioyepYsyeaVPN"></p>
+                    </div>
+                </div>
+                <div class="_6vZdUKmPDGrrza0LnuXD9 bootstrap-iso">
                     <button class="_2ZggRBvDTyawWaQQ6ambu4" onclick="add()">快速注册</button>
+                </div>
+                <div class="_6vZdUKmPDGrrza0LnuXD9">
+                </div>
+            </div>
+
+            <div class="_3CkMCIo8-RsWtcLQqsuKBh" th:if="${forgetPassword != null}">
+                <div class="_3lr3h2hawOi8pO8fYLQcjI">自助找回密码</div>
+                <div class="_6vZdUKmPDGrrza0LnuXD9">
+                    <div>
+                        <div class="mobileIcon"></div>
+                        <input type="text" maxlength="15" autocomplete="off" name="loginUserName" placeholder="请输入你的登陆名">
+                        <p class="_2nSTvdgBwioyepYsyeaVPN"></p>
+                    </div>
+                </div>
+                <div class="_6vZdUKmPDGrrza0LnuXD9">
+                    <div>
+                        <div class="emailIcon"></div>
+                        <input type="email" autocomplete="off" name="userEmail" placeholder="请输入你的邮箱">
+                        <p class="_2nSTvdgBwioyepYsyeaVPN"></p>
+                    </div>
+                </div>
+                <div class="_6vZdUKmPDGrrza0LnuXD9">
+                    <button type="button" id="but" class="btn btn-primary btn-lg" style="width:100%;height:60px;border-radius:10px;"  data-target="#myModal" onclick="forgetPassword()">下一步</button>
                 </div>
                 <div class="_6vZdUKmPDGrrza0LnuXD9">
                 </div>
@@ -54,7 +125,8 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" th:src="@{/admin/common/light_year/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/user/js/jquery.min_2.1.1.js}"></script>
+<script type="text/javascript" th:src="@{/user/js/bootstrap3.3.7.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/dist/js/public.js}"></script>
 <script type="text/javascript" th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
 <script type="text/javascript" th:src="@{/admin/dist/js/register.js}" charset="UTF-8"></script>

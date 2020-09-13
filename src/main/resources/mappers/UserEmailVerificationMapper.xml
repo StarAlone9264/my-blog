@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysite.blog.mapper.UserEmailVerificationMapper">
+    <resultMap id="tagResultMap" type="com.mysite.blog.pojo.UserEmailVerification">
+        <id column="primary_id" jdbcType="INTEGER" property="primaryId"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="verify_id" jdbcType="INTEGER" property="verifyId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="expired" jdbcType="INTEGER" property="expired" />
+    </resultMap>
+    <insert id="insert" parameterType="com.mysite.blog.pojo.UserEmailVerification">
+        insert into tb_user_email_verification(`user_id`,`verify_id`) values (#{userId},#{verifyId});
+    </insert>
+    <update id="deleteById" parameterType="com.mysite.blog.pojo.UserEmailVerification">
+        update tb_user_email_verification
+            set expired = 1
+        where user_id = #{userId} and verify_id = #{verifyId}
+    </update>
+    <select id="queryById" resultMap="tagResultMap">
+        select `primary_id`, `user_id`, `verify_id`, `create_time`,`expired` from tb_user_email_verification where user_id = #{userId} and verify_id = #{verifyId}
+    </select>
+</mapper>

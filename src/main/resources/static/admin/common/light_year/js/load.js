@@ -1,4 +1,5 @@
 $(function () {
+    var url = window.location.protocol+"//"+window.location.host;
     var randNum =  parseInt(Math.random() * 30 + 1);
     var location = window.location;
     var path = location.protocol+"//"+location.host+"/admin/dist/img/login_rand/"+randNum+".jpg";
@@ -25,8 +26,10 @@ $(function () {
     });
 
     $('#forget-password').click(function () {
-        swal("密码你都忘，没有找回功能。", {
+        swal("密码你都忘，在下个页面填写相关信息", {
             icon: "error",
+        }).then(function (){
+            window.location.replace(url+"/user/forgetPassword");
         });
         return false;
     });

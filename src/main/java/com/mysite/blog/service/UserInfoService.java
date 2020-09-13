@@ -44,6 +44,31 @@ public interface UserInfoService {
      * @param loginUserPassword 登陆密码
      * @return 返回结果
      */
-    String addUser(String loginUserName , String loginUserPassword);
+    String addUser(String loginUserName , String loginUserPassword, String userEmail);
+
+    /**
+     * 查询用户
+     * @param loginUserName 登陆名
+     * @param userEmail 用户邮箱
+     * @return String
+     */
+    String findUser(String loginUserName,String userEmail);
+
+    /**
+     * 忘记密码，第一步验证信息
+     * @param loginUserName 登陆名
+     * @param userEmail 用户邮箱
+     * @return String
+     */
+    String forgetPassword(String loginUserName,String userEmail);
+
+    /**
+     * 邮箱验证修改密码
+     * @param verifyId 验证id
+     * @param userId 用户id
+     * @param password 密码
+     * @return String
+     */
+    String resetPassword(String verifyId, String userId, String password);
 
 }

@@ -249,9 +249,6 @@ public class BlogServiceImpl implements BlogService {
         if (blogIdList.isEmpty()){
             return null;
         }
-        for (BlogUserRelation blogUserRelation : blogIdList) {
-            System.out.println(blogUserRelation);
-        }
         return PageUtils.getPageResult(pageRequest, getPageInfoByUserId(pageRequest,blogIdList));
     }
 

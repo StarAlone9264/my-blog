@@ -62,6 +62,11 @@ public class UserInfoController {
         return "admin/login";
     }
 
+    /**
+     * 博客后台管理首页
+     * @param request request
+     * @return 跳转网页
+     */
     @GetMapping({"", "/", "/index", "/index.html"})
     public String index(HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
@@ -78,7 +83,6 @@ public class UserInfoController {
 
     /**
      * 登陆
-     *
      * @param username 用户名
      * @param password 用户密码
      * @return 返回页
@@ -155,16 +159,29 @@ public class UserInfoController {
         return "redirect:/admin/index";
     }
 
+    /**
+     * 跳转注册页
+     * @param request request
+     * @return 注册页
+     */
     @GetMapping("/register")
     public String toRegister(HttpServletRequest request) {
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
         return "admin/register";
     }
 
+    /**
+     * 用户注册
+     * @param request request
+     * @param loginUserName 登陆名
+     * @param loginUserPassword 密码
+     * @param userEmail 邮箱
+     * @return Result
+     */
     @PostMapping("/register")
     @ResponseBody
-    public Result register(HttpServletRequest request, String loginUserName, String loginUserPassword) {
-        String user = userInfoService.addUser(loginUserName, loginUserPassword);
+    public Result register(HttpServletRequest request, String loginUserName, String loginUserPassword, String userEmail) {
+        String user = userInfoService.addUser(loginUserName, loginUserPassword, userEmail);
         // 注册成功，自动登陆
         if("success".equals(user)){
             Subject subject = SecurityUtils.getSubject();
@@ -189,6 +206,11 @@ public class UserInfoController {
         return ResultGenerator.genSuccessResult(user);
     }
 
+    /**
+     * 跳转用户信息页
+     * @param request request
+     * @return 信息页
+     */
     @GetMapping("/profile")
     public String profile(HttpServletRequest request) {
         request.setAttribute("path", "profile");
@@ -240,10 +262,8 @@ public class UserInfoController {
             return "修改失败";
         }
     }
-
     /**
      * 修改密码
-     *
      * @param request          request
      * @param originalPassword 原密码
      * @param newPassword      新密码
