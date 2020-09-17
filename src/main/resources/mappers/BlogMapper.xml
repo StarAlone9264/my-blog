@@ -252,9 +252,6 @@
                 <if test="updateTime != null">
                     update_time = CURRENT_TIMESTAMP,
                 </if>
-                <if test="updateTime == null">
-                    update_time = CURRENT_TIMESTAMP,
-                </if>
                 <if test="blogContent != null">
                     blog_content = #{blogContent,jdbcType=LONGVARCHAR},
                 </if>

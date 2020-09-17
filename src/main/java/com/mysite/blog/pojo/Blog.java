@@ -37,7 +37,9 @@ public class Blog {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
     private Date updateTime;
-    // 存放用户信息----头像+名称
+    /**
+     * 存放用户信息----头像+名称
+     */
     private Map<String,String> map;
     @Override
     public String toString() {

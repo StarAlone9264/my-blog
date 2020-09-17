@@ -164,6 +164,7 @@ public class UserInfoController {
      * @param request request
      * @return 注册页
      */
+
     @GetMapping("/register")
     public String toRegister(HttpServletRequest request) {
         request.setAttribute("configurations", blogConfigService.getAllConfigs());

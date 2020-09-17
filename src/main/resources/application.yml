@@ -43,7 +43,7 @@ spring:
   mail:
     host: smtp.163.com #发送邮件服务器
     username: whh2532446368guji@163.com #163邮箱账号
-    password: xxxxxxxxxxx #授权码
+    password: xxxxxxxx #授权码
     protocol: smtp #发送邮件协议
     properties.mail.smtp.auth: true
     properties.mail.smtp.port: 994 #端口号465或994

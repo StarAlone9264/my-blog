@@ -389,6 +389,8 @@ public class BlogServiceImpl implements BlogService {
         if (blog != null && blog.getBlogStatus() == 1){
             // 增加浏览量
             blog.setBlogViews(blog.getBlogViews() + 1);
+            // 防止修改更新日期
+            blog.setUpdateTime(null);
             blogMapper.updateDynamicByPrimaryId(blog);
             // 处理博文
             BlogDetailVo blogDetailVo = new BlogDetailVo();

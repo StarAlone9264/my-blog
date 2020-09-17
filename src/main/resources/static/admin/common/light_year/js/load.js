@@ -33,6 +33,14 @@ $(function () {
         });
         return false;
     });
+
+    $('#register').click(function (){
+        swal("由于是个人学习使用，所以不对外开放注册功能！", {
+            icon: "error",
+        });
+        return false;
+    });
+
 });
 
 function login() {

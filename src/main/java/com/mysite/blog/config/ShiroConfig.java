@@ -40,8 +40,8 @@ public class ShiroConfig {
         map.put("/admin/plugins/**","anon");
         map.put("/admin/upload/**","anon");
         map.put("/admin/login","anon");
-        map.put("/admin/register","anon");
-        map.put("/admin/loginOut","anon");
+        map.put("/admin/register","user");
+        map.put("/admin/loginOut","user");
         map.put("/admin/**","user");
         map.put("/admin/configurations/**","authc");
         map.put("/admin/profile/**","authc");
